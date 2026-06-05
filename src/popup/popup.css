@@ -1,0 +1,337 @@
+/* WordLens Popup — Review Queue Styles */
+
+:root {
+  --bg: #ffffff;
+  --surface: #f9fafb;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --good: #22c55e;
+  --warn: #f59e0b;
+  --radius: 12px;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1e1e2e;
+    --surface: #27273a;
+    --text: #e4e4e7;
+    --muted: #a1a1aa;
+    --border: #3f3f46;
+    --primary: #60a5fa;
+    --primary-hover: #93bbfd;
+    --shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 380px;
+  min-height: 300px;
+  padding: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Loading ────────────────────────────────────────────────────── */
+
+#loading-screen {
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 12px;
+  color: var(--muted);
+}
+
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Empty State ────────────────────────────────────────────────── */
+
+#empty-screen {
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+  gap: 8px;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+}
+
+#empty-screen h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+#empty-screen p {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+/* ─── Progress Bar ───────────────────────────────────────────────── */
+
+#progress-bar {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+
+#progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 2px;
+  transition: width 0.2s ease;
+  width: 0%;
+}
+
+#progress-text {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: right;
+  margin-bottom: 12px;
+}
+
+/* ─── Card ───────────────────────────────────────────────────────── */
+
+#card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: default;
+  transition: border-color 0.15s;
+}
+
+#card-word {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+#card-hint {
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+#card-hint:hover {
+  color: var(--primary);
+}
+
+#card-details {
+  width: 100%;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#card-translation {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+#card-meta {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+#card-pos {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  padding: 2px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+#card-phonetic {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+#card-sentence {
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  line-height: 1.5;
+}
+
+#card-stats-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ─── Controls ───────────────────────────────────────────────────── */
+
+#controls {
+  margin-top: 16px;
+}
+
+#controls-keys {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.key-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-family: inherit;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  min-width: 24px;
+  text-align: center;
+}
+
+/* ─── Complete Screen ────────────────────────────────────────────── */
+
+#complete-screen {
+  align-items: center;
+  min-height: 300px;
+  gap: 8px;
+}
+
+.complete-icon {
+  font-size: 48px;
+  margin-bottom: 4px;
+}
+
+#complete-screen h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+#stats-panel {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 12px 0;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.stat-good {
+  color: var(--good);
+  font-weight: 600;
+}
+
+.stat-warn {
+  color: var(--warn);
+  font-weight: 600;
+}
+
+.stat-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 6px 0;
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--border);
+}

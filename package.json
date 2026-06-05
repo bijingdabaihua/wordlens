@@ -1,0 +1,18 @@
+{
+  "name": "wordlens",
+  "version": "1.0.0",
+  "description": "WordLens - 阅读英文网页，不知不觉学英语",
+  "type": "module",
+  "scripts": {
+    "dev": "vite build --watch",
+    "build": "tsc --noEmit && vite build && node scripts/build.js",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.300",
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0",
+    "vitest": "^3.0.0"
+  }
+}

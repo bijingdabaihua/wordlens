@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WordLens 复习</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- Loading -->
+    <div id="loading-screen" class="screen">
+      <div class="spinner"></div>
+      <p>加载词库...</p>
+    </div>
+
+    <!-- Empty state (no words to review) -->
+    <div id="empty-screen" class="screen hidden">
+      <div class="empty-icon">📖</div>
+      <h2>暂无复习</h2>
+      <p>开始阅读英文网页，Alt+悬停查询单词</p>
+      <button id="go-options-btn" class="btn btn-secondary">设置 API Key</button>
+    </div>
+
+    <!-- Review mode -->
+    <div id="review-screen" class="screen hidden">
+      <div id="progress-bar">
+        <div id="progress-fill"></div>
+      </div>
+      <div id="progress-text">0 / 0</div>
+
+      <div id="card">
+        <div id="card-word"></div>
+        <div id="card-hint" class="hidden">悬停看释义</div>
+        <div id="card-details" class="hidden">
+          <div id="card-translation"></div>
+          <div id="card-meta">
+            <span id="card-pos"></span>
+            <span id="card-phonetic"></span>
+          </div>
+          <div id="card-sentence"></div>
+        </div>
+        <div id="card-stats-row">
+          <span id="card-frequency"></span>
+          <span id="card-forgotten"></span>
+        </div>
+      </div>
+
+      <div id="controls">
+        <div id="controls-keys">
+          <div class="key-hint">
+            <kbd>W</kbd> 没记住
+          </div>
+          <div class="key-hint">
+            <kbd>Space</kbd> 记住了
+          </div>
+          <div class="key-hint">
+            <kbd>Q</kbd> 撤销
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Complete screen -->
+    <div id="complete-screen" class="screen hidden">
+      <div class="complete-icon">🎉</div>
+      <h2>复习完成！</h2>
+      <div id="stats-panel">
+        <div class="stat-row">
+          <span>本次复习</span>
+          <span id="stat-reviewed">0</span>
+        </div>
+        <div class="stat-row">
+          <span>记住</span>
+          <span id="stat-remembered" class="stat-good">0</span>
+        </div>
+        <div class="stat-row">
+          <span>需要巩固</span>
+          <span id="stat-forgotten" class="stat-warn">0</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-row">
+          <span>词汇量</span>
+          <span id="stat-vocab">0</span>
+        </div>
+        <div class="stat-row">
+          <span>CEFR 等级</span>
+          <span id="stat-cefr">-</span>
+        </div>
+      </div>
+      <button id="close-btn" class="btn btn-primary">关闭</button>
+    </div>
+
+  </div>
+  <script type="module" src="popup.ts"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+/* WordLens Floating Card — injected into web pages */
+
+/* ─── Variables ────────────────────────────────────────────────────── */
+
+#wordlens-card {
+  --wl-bg: #ffffff;
+  --wl-text: #1a1a2e;
+  --wl-muted: #6b7280;
+  --wl-border: #e5e7eb;
+  --wl-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --wl-primary: #3b82f6;
+  --wl-error: #ef4444;
+  --wl-spinner: #3b82f6;
+  --wl-radius: 12px;
+  --wl-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  #wordlens-card {
+    --wl-bg: #1e1e2e;
+    --wl-text: #e4e4e7;
+    --wl-muted: #a1a1aa;
+    --wl-border: #3f3f46;
+    --wl-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --wl-primary: #60a5fa;
+    --wl-error: #f87171;
+    --wl-spinner: #60a5fa;
+  }
+}
+
+/* ─── Container ────────────────────────────────────────────────────── */
+
+.wordlens-floating-card {
+  all: initial;
+  position: fixed;
+  z-index: 2147483647;
+  max-width: 400px;
+  min-width: 220px;
+  font-family: var(--wl-font);
+  background: var(--wl-bg);
+  color: var(--wl-text);
+  border-radius: var(--wl-radius);
+  box-shadow: var(--wl-shadow);
+  border: 1px solid var(--wl-border);
+  padding: 16px 20px;
+  line-height: 1.5;
+  font-size: 14px;
+  animation: wordlens-fadeIn 0.15s ease-out;
+  pointer-events: auto;
+}
+
+@keyframes wordlens-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Header ───────────────────────────────────────────────────────── */
+
+.wordlens-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-right: 20px; /* space for close button */
+}
+
+.wordlens-word {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--wl-text);
+  letter-spacing: -0.01em;
+}
+
+.wordlens-phonetic {
+  font-size: 13px;
+  color: var(--wl-muted);
+  font-weight: 400;
+}
+
+/* ─── Body ─────────────────────────────────────────────────────────── */
+
+.wordlens-body {
+  margin-bottom: 4px;
+}
+
+.wordlens-translation {
+  font-size: 15px;
+  color: var(--wl-text);
+  line-height: 1.6;
+}
+
+.wordlens-meta {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.wordlens-pos {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--wl-primary);
+  background: color-mix(in srgb, var(--wl-primary) 12%, transparent);
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ─── Sentence ─────────────────────────────────────────────────────── */
+
+.wordlens-sentence {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--wl-border);
+  font-size: 13px;
+  color: var(--wl-muted);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ─── Close Button ─────────────────────────────────────────────────── */
+
+.wordlens-close {
+  all: initial;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--wl-muted);
+  border-radius: 6px;
+  font-family: var(--wl-font);
+  line-height: 1;
+  transition: background 0.12s, color 0.12s;
+}
+
+.wordlens-close:hover {
+  background: color-mix(in srgb, var(--wl-muted) 15%, transparent);
+  color: var(--wl-text);
+}
+
+/* ─── Loading ──────────────────────────────────────────────────────── */
+
+.wordlens-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+  color: var(--wl-muted);
+  font-size: 13px;
+}
+
+.wordlens-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--wl-border);
+  border-top-color: var(--wl-spinner);
+  border-radius: 50%;
+  animation: wordlens-spin 0.6s linear infinite;
+}
+
+@keyframes wordlens-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─── Error ────────────────────────────────────────────────────────── */
+
+.wordlens-error {
+  color: var(--wl-error);
+  font-size: 13px;
+  line-height: 1.5;
+  padding: 4px 0;
+}
+
+/* ─── Selection highlights ─────────────────────────────────────────── */
+
+.wordlens-highlight {
+  background: rgba(59, 130, 246, 0.15) !important;
+  cursor: pointer !important;
+}
