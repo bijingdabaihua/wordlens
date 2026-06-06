@@ -1,229 +1,113 @@
-/* WordLens Options — Anthropic-inspired design */
+/* WordLens Options — Anthropic minimal style */
 
 :root {
   --bg: #ffffff;
-  --surface: #f5f5f4;
+  --surface: #fafaf9;
   --text: #1c1917;
-  --muted: #78716c;
+  --muted: #a8a29e;
   --border: #e7e5e4;
   --primary: #d97706;
   --primary-hover: #b45309;
   --danger: #dc2626;
-  --danger-hover: #b91c1c;
   --success: #22c55e;
-  --radius: 10px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #1c1c1e;
-    --surface: #2a2a2c;
-    --text: #e4e4e7;
-    --muted: #a1a1aa;
-    --border: #3f3f46;
-    --primary: #f59e0b;
-    --primary-hover: #d97706;
-    --danger: #f87171;
-    --danger-hover: #fca5a5;
-    --success: #4ade80;
-  }
+  --radius: 12px;
 }
 
 body {
-  width: auto; min-height: auto;
-  max-width: 620px; margin: 0 auto;
+  width: auto; max-width: 620px; margin: 0 auto;
   padding: 32px 24px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  font-size: 14px;
-  line-height: 1.5;
+  background: var(--bg); color: var(--text);
+  font-size: 14px; line-height: 1.6;
 }
 
-header h1 {
-  font-size: 22px; font-weight: 650;
-  margin-bottom: 28px;
-  letter-spacing: -0.01em;
-}
-
+header h1 { font-size: 22px; font-weight: 650; margin-bottom: 28px; }
 section { margin-bottom: 28px; }
 
-hr {
-  border: none; border-top: 1px solid var(--border);
-  margin: 24px 0;
-}
+hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
 
-.field-group {
-  display: flex; gap: 8px; align-items: center;
-  flex-wrap: wrap; margin-bottom: 12px;
-}
+.field-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+label { font-size: 13px; font-weight: 500; color: var(--muted); }
 
-label {
-  font-size: 13px; font-weight: 500;
-  margin-bottom: 4px; color: var(--muted);
-}
-
-.input-row {
-  display: flex; flex: 1; align-items: center;
-  gap: 8px; min-width: 0;
-}
-
-.input-row .input-wrap {
-  position: relative; flex: 1; min-width: 0;
-}
+.input-row { display: flex; flex: 1; align-items: center; gap: 8px; min-width: 0; }
+.input-row .input-wrap { position: relative; flex: 1; min-width: 0; }
 
 .input-row .input-wrap input {
-  width: 100%;
-  padding: 10px 14px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: 'SF Mono', 'Fira Code', monospace;
-  background: var(--surface);
-  color: var(--text);
-  outline: none;
-  transition: border-color 0.12s, box-shadow 0.12s;
-  box-sizing: border-box;
+  width: 100%; padding: 10px 14px;
+  border: 1px solid var(--border); border-radius: 8px;
+  font-size: 14px; font-family: 'SF Mono', 'Fira Code', monospace;
+  background: #ffffff; color: var(--text);
+  outline: none; transition: border-color 0.12s; box-sizing: border-box;
 }
 
-.input-row .input-wrap input:focus {
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 15%, transparent);
-}
+.input-row .input-wrap input:focus { border-color: var(--primary); }
 
 .input-row .input-wrap .btn-icon {
-  position: absolute; right: 6px; top: 50%;
-  transform: translateY(-50%);
-  background: transparent; border: none;
-  padding: 6px; font-size: 15px;
-  cursor: pointer; opacity: 0.5;
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  background: transparent; border: none; padding: 6px;
+  font-size: 15px; cursor: pointer; opacity: 0.35;
   transition: opacity 0.12s; line-height: 1;
 }
 
 .input-row .input-wrap .btn-icon:hover { opacity: 1; }
 
-/* ─── Buttons ─────────────────────────────────────────────────────── */
-
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
   padding: 10px 20px; border: none; border-radius: 8px;
   font-size: 14px; font-weight: 500; cursor: pointer;
-  transition: background 0.12s, opacity 0.12s;
-  white-space: nowrap;
+  transition: background 0.12s; white-space: nowrap;
 }
 
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
 .btn-primary { background: var(--primary); color: white; }
 .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
-
-.btn-secondary {
-  background: var(--surface); color: var(--text);
-  border: 1px solid var(--border);
-}
-.btn-secondary:hover:not(:disabled) { background: var(--border); }
-
-.btn-danger {
-  background: var(--surface); color: var(--danger);
-  border: 1px solid var(--danger);
-}
-.btn-danger:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--danger) 10%, transparent);
-}
-
-/* ─── Status Dot ──────────────────────────────────────────────────── */
+.btn-secondary { background: #ffffff; color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover:not(:disabled) { background: #f5f5f4; }
 
 .key-dot {
-  display: inline-block;
-  width: 9px; height: 9px;
+  display: inline-block; width: 9px; height: 9px;
   border-radius: 50%; flex-shrink: 0;
-  transition: background 0.2s, box-shadow 0.2s;
+  transition: background 0.2s;
 }
 
-.key-dot.idle,
-.key-dot.unset { background: #9ca3af; }
+.key-dot.idle, .key-dot.unset { background: #d4d4d4; }
 .key-dot.checking { background: #f59e0b; animation: pulse 0.8s infinite; }
-.key-dot.ok { background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.4); }
+.key-dot.ok { background: #22c55e; }
 .key-dot.err { background: #ef4444; }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-/* ─── Toast ────────────────────────────────────────────────────────── */
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
 .wordlens-toast {
   position: fixed; top: 16px; left: 50%;
   transform: translateX(-50%) translateY(-20px);
-  padding: 10px 20px; border-radius: 8px;
-  font-size: 14px; font-weight: 500;
-  z-index: 9999; opacity: 0;
+  padding: 10px 20px; border-radius: 8px; font-size: 14px;
+  font-weight: 500; z-index: 9999; opacity: 0;
   transition: opacity 0.25s, transform 0.25s;
-  pointer-events: none;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  pointer-events: none; box-shadow: 0 4px 16px rgba(0,0,0,0.06);
 }
 
 .wordlens-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-.wordlens-toast.success {
-  background: color-mix(in srgb, var(--success) 14%, transparent);
-  color: var(--success);
-  border: 1px solid color-mix(in srgb, var(--success) 30%, transparent);
-}
-
-.wordlens-toast.error {
-  background: color-mix(in srgb, var(--danger) 14%, transparent);
-  color: var(--danger);
-  border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent);
-}
-
-/* ─── Stats Display ───────────────────────────────────────────────── */
+.wordlens-toast.success { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+.wordlens-toast.error { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
 
 #stats-display {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 10px;
-  margin-bottom: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px;
 }
 
 .stat-item {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px 12px;
-  text-align: center;
+  background: #ffffff; border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 12px; text-align: center;
 }
 
-.stat-label {
-  display: block;
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 4px;
-}
+.stat-label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.stat-value { display: block; font-size: 20px; font-weight: 650; }
 
-.stat-value {
-  display: block;
-  font-size: 20px;
-  font-weight: 650;
-}
-
-/* ─── Inputs ───────────────────────────────────────────────────────── */
-
-input[type="text"],
-input[type="password"] {
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 13px;
-  background: var(--surface);
-  color: var(--text);
-  outline: none;
-  font-family: 'SF Mono', 'Fira Code', monospace;
+input[type="text"], input[type="password"] {
+  padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px;
+  font-size: 13px; background: #ffffff; color: var(--text);
+  outline: none; font-family: 'SF Mono', 'Fira Code', monospace;
   transition: border-color 0.12s;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
-  border-color: var(--primary);
-}
+input[type="text"]:focus, input[type="password"]:focus { border-color: var(--primary); }
