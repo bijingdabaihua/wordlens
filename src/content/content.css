@@ -1,7 +1,7 @@
 /* WordLens Floating Card — Anthropic minimal style */
 
 #wordlens-card {
-  --wl-bg: #ffffff;
+  --wl-bg: #faf9f5;
   --wl-text: #1c1917;
   --wl-muted: #a8a29e;
   --wl-border: #e7e5e4;
@@ -11,7 +11,7 @@
   --wl-error: #dc2626;
   --wl-spinner: #d97706;
   --wl-radius: 12px;
-  --wl-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Georgia', serif;
+  --wl-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
 }
 
 .wordlens-floating-card {
