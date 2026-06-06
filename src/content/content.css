@@ -67,7 +67,6 @@
   align-items: baseline;
   gap: 8px;
   margin-bottom: 8px;
-  padding-right: 20px; /* space for close button */
 }
 
 .wordlens-word {
@@ -113,44 +112,6 @@
   letter-spacing: 0.02em;
 }
 
-/* ─── Sentence ─────────────────────────────────────────────────────── */
-
-.wordlens-sentence {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid var(--wl-border);
-  font-size: 13px;
-  color: var(--wl-muted);
-  font-style: italic;
-  line-height: 1.5;
-}
-
-/* ─── Close Button ─────────────────────────────────────────────────── */
-
-.wordlens-close {
-  all: initial;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-  color: var(--wl-muted);
-  border-radius: 6px;
-  font-family: var(--wl-font);
-  line-height: 1;
-  transition: background 0.12s, color 0.12s;
-}
-
-.wordlens-close:hover {
-  background: color-mix(in srgb, var(--wl-muted) 15%, transparent);
-  color: var(--wl-text);
-}
-
 /* ─── Loading ──────────────────────────────────────────────────────── */
 
 .wordlens-loading {
@@ -185,11 +146,4 @@
   font-size: 13px;
   line-height: 1.5;
   padding: 4px 0;
-}
-
-/* ─── Selection highlights ─────────────────────────────────────────── */
-
-.wordlens-highlight {
-  background: rgba(59, 130, 246, 0.15) !important;
-  cursor: pointer !important;
 }

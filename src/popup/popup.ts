@@ -1,27 +1,29 @@
 // Popup — Review Queue
 
 import { getWordsByPriority, updateReviewResult, getStats, estimateVocabulary, getCEFRLevel } from '../shared/storage';
-import type { WordRecord } from '../shared/types';
-
-// ─── Types ────────────────────────────────────────────────────────────
-
-interface UndoEntry {
-  type: 'remember' | 'forgot';
-  id: string;
-  index: number;
-  beforeRemembered: number;
-  beforeForgotten: number;
-  beforeStatus: WordRecord['status'];
-}
 
 // ─── State ────────────────────────────────────────────────────────────
 
 let words: WordRecord[] = [];
 let currentIndex = 0;
-let undoStack: UndoEntry[] = [];
 let reviewedCount = 0;
 let rememberedCount = 0;
 let forgottenCount = 0;
+let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
+let detailsRevealed = false;
+
+// ─── Types ────────────────────────────────────────────────────────────
+
+interface WordRecord {
+  id: string;
+  word: string;
+  translation: string;
+  sentence: string;
+  frequency: number;
+  forgottenCount: number;
+  rememberedCount: number;
+  status: string;
+}
 
 // DOM refs
 const $ = (id: string) => document.getElementById(id)!;
@@ -38,7 +40,6 @@ const cardDetails = $('card-details');
 const cardTranslation = $('card-translation');
 const cardPos = $('card-pos');
 const cardPhonetic = $('card-phonetic');
-const cardSentence = $('card-sentence');
 const cardFrequency = $('card-frequency');
 const cardForgotten = $('card-forgotten');
 const statReviewed = $('stat-reviewed');
@@ -52,7 +53,7 @@ const statCefr = $('stat-cefr');
 async function init() {
   try {
     words = await getWordsByPriority();
-    words = words.filter(w => w.status !== 'mastered');
+    words = words.filter((w: WordRecord) => w.status !== 'mastered');
 
     if (words.length === 0) {
       showEmpty();
@@ -116,69 +117,45 @@ function renderCard() {
   // Word
   cardWord.textContent = record.word;
 
-  // Details (hidden by default — revealed on hover/click)
+  // Details hidden by default — first scroll down reveals them
   cardDetails.classList.add('hidden');
-  cardHint.classList.remove('hidden');
-  cardHint.textContent = '悬停看释义';
+  cardHint.classList.add('hidden');
+  detailsRevealed = false;
 
   // Use saved translation data
   cardTranslation.textContent = record.translation || '';
   cardPos.textContent = '';
   cardPhonetic.textContent = '';
-  cardSentence.textContent = record.sentence || '';
   cardFrequency.textContent = `查询 ${record.frequency} 次`;
   cardForgotten.textContent = `遗忘 ${record.forgottenCount} 次`;
-
-  // Reset undo stack when moving to a new word
-  undoStack = [];
 }
 
-// ─── Card Interaction ─────────────────────────────────────────────────
+// ─── Scroll Controls ─────────────────────────────────────────────────
 
-cardWord.addEventListener('mouseenter', () => {
-  cardDetails.classList.remove('hidden');
-  cardHint.classList.add('hidden');
-});
-
-cardWord.addEventListener('click', () => {
-  cardDetails.classList.remove('hidden');
-  cardHint.classList.add('hidden');
-});
-
-// ─── Keyboard Controls ────────────────────────────────────────────────
-
-document.addEventListener('keydown', (e: KeyboardEvent) => {
-  // Complete screen: close on Enter or Space
-  if (!completeScreen.classList.contains('hidden')) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      window.close();
-    }
-    return;
-  }
+$('card').addEventListener('wheel', (e: WheelEvent) => {
+  e.preventDefault();
 
   if (reviewScreen.classList.contains('hidden')) return;
 
-  // Reveal details on any action
-  cardDetails.classList.remove('hidden');
-  cardHint.classList.add('hidden');
+  if (scrollTimeout) return;
+  scrollTimeout = setTimeout(() => { scrollTimeout = null; }, 350);
 
-  switch (e.key) {
-    case ' ':
-    case 'Space':
-      e.preventDefault();
+  if (e.deltaY > 0) {
+    // Scroll down: first time → reveal details, second time → remember
+    if (!detailsRevealed) {
+      cardDetails.classList.remove('hidden');
+      detailsRevealed = true;
+    } else {
       handleRemember();
-      break;
-    case 'w':
-    case 'W':
-      handleForgot();
-      break;
-    case 'q':
-    case 'Q':
-      handleUndo();
-      break;
+    }
+  } else {
+    // Scroll up: reveal + forgot
+    if (!detailsRevealed) {
+      cardDetails.classList.remove('hidden');
+    }
+    handleForgot();
   }
-});
+}, { passive: false });
 
 // ─── Action Handlers ──────────────────────────────────────────────────
 
@@ -186,16 +163,6 @@ function handleRemember() {
   if (currentIndex >= words.length) return;
 
   const record = words[currentIndex];
-
-  // Save undo info
-  undoStack.push({
-    type: 'remember',
-    id: record.id,
-    index: currentIndex,
-    beforeRemembered: record.rememberedCount,
-    beforeForgotten: record.forgottenCount,
-    beforeStatus: record.status,
-  });
 
   // Update in storage
   updateReviewResult(record.id, true);
@@ -210,16 +177,6 @@ function handleForgot() {
   if (currentIndex >= words.length) return;
 
   const record = words[currentIndex];
-
-  // Save undo info
-  undoStack.push({
-    type: 'forgot',
-    id: record.id,
-    index: currentIndex,
-    beforeRemembered: record.rememberedCount,
-    beforeForgotten: record.forgottenCount,
-    beforeStatus: record.status,
-  });
 
   // Update in storage
   updateReviewResult(record.id, false);
@@ -236,36 +193,7 @@ function handleForgot() {
   const [moved] = words.splice(currentIndex, 1);
   words.splice(reinsertPos - 1, 0, moved);
 
-  // Stay at same index (next word slides in)
   renderCard();
-}
-
-function handleUndo() {
-  if (undoStack.length === 0) return;
-
-  const undo = undoStack.pop()!;
-
-  if (undo.type === 'remember') {
-    // Simple: go back one position
-    currentIndex = undo.index;
-    reviewedCount--;
-    rememberedCount--;
-    renderCard();
-  } else if (undo.type === 'forgot') {
-    // Find the word and put it back at the original position
-    const wordIdx = words.findIndex(w => w.id === undo.id);
-    if (wordIdx >= 0) {
-      const [moved] = words.splice(wordIdx, 1);
-      words.splice(undo.index, 0, moved);
-    }
-
-    reviewedCount--;
-    forgottenCount--;
-
-    // Re-render at the undo index
-    currentIndex = undo.index;
-    renderCard();
-  }
 }
 
 // ─── Stats Screen ─────────────────────────────────────────────────────

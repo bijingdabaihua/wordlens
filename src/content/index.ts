@@ -5,6 +5,7 @@ import {
   showTranslation,
   showStreamStart,
   appendStreamChunk,
+  finishStream,
   showError,
   showNoKeyPrompt,
   isCardVisible,
@@ -285,13 +286,9 @@ async function processSentence(
       }
 
       if (msg.type === 'result') {
-        // Translation complete — update the card
+        // Translation complete — card already has text via chunks, just mark done
         if (fullResult) {
-          showTranslation(
-            { word: '', translation: fullResult, sourceSentence: text },
-            x,
-            y,
-          );
+          finishStream();
         }
       }
     });
@@ -314,11 +311,8 @@ async function processSentence(
             text,
           });
           if (response.result) {
-            showTranslation(
-              { word: '', translation: response.result as string, sourceSentence: text },
-              x,
-              y,
-            );
+            appendStreamChunk(response.result as string);
+            finishStream();
           }
         } catch {
           // Already handled

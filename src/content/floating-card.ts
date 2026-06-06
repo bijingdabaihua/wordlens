@@ -56,12 +56,8 @@ export function showTranslation(
   const posHtml = result.partOfSpeech
     ? `<span class="wordlens-pos">${result.partOfSpeech}</span>`
     : '';
-  const sentenceHtml = result.sourceSentence
-    ? `<div class="wordlens-sentence">${escapeHtml(result.sourceSentence)}</div>`
-    : '';
 
   card.innerHTML = `
-    <button class="wordlens-close" aria-label="关闭">&times;</button>
     <div class="wordlens-header">
       <span class="wordlens-word">${escapeHtml(result.word)}</span>
       ${phoneticHtml}
@@ -70,11 +66,7 @@ export function showTranslation(
       <div class="wordlens-translation">${escapeHtml(result.translation)}</div>
       <div class="wordlens-meta">${posHtml}</div>
     </div>
-    ${sentenceHtml}
   `;
-
-  // Close button
-  card.querySelector('.wordlens-close')?.addEventListener('click', removeCard);
 
   positionCard(card, x, y);
   document.body.appendChild(card);
@@ -102,20 +94,25 @@ export function showStreamStart(x: number, y: number): void {
   removeCard();
 
   const card = createCardElement();
+  card.dataset.streaming = 'true';
   card.innerHTML = `
-    <button class="wordlens-close" aria-label="关闭">&times;</button>
-    <div class="wordlens-header">
-      <span class="wordlens-word">翻译</span>
-    </div>
     <div class="wordlens-body">
       <div class="wordlens-translation"></div>
     </div>
   `;
 
-  card.querySelector('.wordlens-close')?.addEventListener('click', removeCard);
   positionCard(card, x, y);
   document.body.appendChild(card);
   state.showing = true;
+}
+
+/**
+ * Finish a streaming translation — update card in-place, no visual jump.
+ */
+export function finishStream(): void {
+  const card = document.getElementById(CARD_ID);
+  if (!card) return;
+  delete card.dataset.streaming;
 }
 
 /**
@@ -131,13 +128,11 @@ export function showError(
 
   const card = createCardElement();
   card.innerHTML = `
-    <button class="wordlens-close" aria-label="关闭">&times;</button>
     <div class="wordlens-body">
       <div class="wordlens-error">${escapeHtml(message)}</div>
     </div>
   `;
 
-  card.querySelector('.wordlens-close')?.addEventListener('click', removeCard);
   positionCard(card, x, y);
   document.body.appendChild(card);
   state.showing = true;
@@ -152,7 +147,6 @@ export function showNoKeyPrompt(x: number, y: number): void {
 
   const card = createCardElement();
   card.innerHTML = `
-    <button class="wordlens-close" aria-label="关闭">&times;</button>
     <div class="wordlens-body">
       <div class="wordlens-error">
         请先在设置页面配置 DeepSeek API Key
@@ -160,7 +154,6 @@ export function showNoKeyPrompt(x: number, y: number): void {
     </div>
   `;
 
-  card.querySelector('.wordlens-close')?.addEventListener('click', removeCard);
   positionCard(card, x, y);
   document.body.appendChild(card);
   state.showing = true;
@@ -193,39 +186,29 @@ function createCardElement(): HTMLElement {
 }
 
 function positionCard(card: HTMLElement, x: number, y: number): void {
-  // Render off-screen first to measure dimensions
   card.style.left = '-9999px';
   card.style.top = '-9999px';
   card.style.position = 'fixed';
 
-  // Use requestAnimationFrame to wait for layout
   requestAnimationFrame(() => {
     const rect = card.getBoundingClientRect();
     const viewportW = window.innerWidth;
     const viewportH = window.innerHeight;
-    const margin = 12;
+    const margin = 8;
 
     let left: number;
     let top: number;
 
-    // Prefer placing below cursor
+    // Below cursor, expanding downward (natural for streaming)
     if (y + rect.height + margin < viewportH) {
       top = y + margin;
     } else {
-      // Above cursor
       top = y - rect.height - margin;
     }
 
-    if (x + rect.width + margin < viewportW) {
-      left = x + margin;
-    } else {
-      // Align right edge with viewport
-      left = viewportW - rect.width - margin;
-    }
-
-    // Clamp to viewport
-    left = Math.max(margin, left);
-    top = Math.max(margin, top);
+    // Center-align with cursor
+    left = x - rect.width / 2;
+    left = Math.max(margin, Math.min(viewportW - rect.width - margin, left));
 
     card.style.left = `${left}px`;
     card.style.top = `${top}px`;
@@ -259,6 +242,13 @@ document.addEventListener('mousedown', (e: MouseEvent) => {
   if (!state.showing) return;
   const target = e.target as HTMLElement;
   if (!target.closest(`#${CARD_ID}`)) {
+    removeCard();
+  }
+});
+
+// Close on scroll / mouse wheel
+document.addEventListener('wheel', () => {
+  if (state.showing) {
     removeCard();
   }
 });
