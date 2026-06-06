@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Write(*)",
+      "Edit(*)",
+      "Read(*)",
+      "Glob(*)",
+      "Grep(*)",
+      "WebFetch(*)",
+      "WebSearch(*)",
+      "NotebookEdit(*)",
+      "Agent(*)",
+      "Workflow(*)",
+      "Skill(*)",
+      "CronCreate(*)",
+      "CronDelete(*)",
+      "CronList(*)",
+      "ScheduleWakeup(*)",
+      "EnterPlanMode(*)",
+      "EnterWorktree(*)",
+      "ExitPlanMode(*)",
+      "ExitWorktree(*)",
+      "TodoWrite(*)",
+      "AskUserQuestion(*)",
+      "TaskOutput(*)",
+      "TaskStop(*)",
+      "MCP(*)",
+      "mcp__*(*)"
+    ],
+    "defaultMode": "bypassPermissions"
+  }
+}
