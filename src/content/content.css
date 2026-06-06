@@ -1,30 +1,34 @@
-/* WordLens Floating Card — injected into web pages */
+/* WordLens Floating Card — Anthropic-inspired design */
 
 /* ─── Variables ────────────────────────────────────────────────────── */
 
 #wordlens-card {
   --wl-bg: #ffffff;
-  --wl-text: #1a1a2e;
-  --wl-muted: #6b7280;
-  --wl-border: #e5e7eb;
-  --wl-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-  --wl-primary: #3b82f6;
-  --wl-error: #ef4444;
-  --wl-spinner: #3b82f6;
-  --wl-radius: 12px;
-  --wl-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --wl-surface: #f5f5f4;
+  --wl-text: #1c1917;
+  --wl-muted: #78716c;
+  --wl-border: #e7e5e4;
+  --wl-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --wl-accent: #d97706;
+  --wl-accent-soft: rgba(217, 119, 6, 0.1);
+  --wl-error: #dc2626;
+  --wl-spinner: #d97706;
+  --wl-radius: 10px;
+  --wl-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   #wordlens-card {
-    --wl-bg: #1e1e2e;
+    --wl-bg: #1c1c1e;
+    --wl-surface: #2a2a2c;
     --wl-text: #e4e4e7;
     --wl-muted: #a1a1aa;
     --wl-border: #3f3f46;
-    --wl-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-    --wl-primary: #60a5fa;
+    --wl-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --wl-accent: #f59e0b;
+    --wl-accent-soft: rgba(245, 158, 11, 0.12);
     --wl-error: #f87171;
-    --wl-spinner: #60a5fa;
+    --wl-spinner: #f59e0b;
   }
 }
 
@@ -34,30 +38,24 @@
   all: initial;
   position: fixed;
   z-index: 2147483647;
-  max-width: 400px;
-  min-width: 220px;
+  max-width: 380px;
+  min-width: 200px;
   font-family: var(--wl-font);
   background: var(--wl-bg);
   color: var(--wl-text);
   border-radius: var(--wl-radius);
   box-shadow: var(--wl-shadow);
   border: 1px solid var(--wl-border);
-  padding: 16px 20px;
+  padding: 14px 18px;
   line-height: 1.5;
   font-size: 14px;
-  animation: wordlens-fadeIn 0.15s ease-out;
+  animation: wordlens-fadeIn 0.12s ease-out;
   pointer-events: auto;
 }
 
 @keyframes wordlens-fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ─── Header ───────────────────────────────────────────────────────── */
@@ -66,12 +64,12 @@
   display: flex;
   align-items: baseline;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .wordlens-word {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 17px;
+  font-weight: 650;
   color: var(--wl-text);
   letter-spacing: -0.01em;
 }
@@ -85,11 +83,11 @@
 /* ─── Body ─────────────────────────────────────────────────────────── */
 
 .wordlens-body {
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .wordlens-translation {
-  font-size: 15px;
+  font-size: 14.5px;
   color: var(--wl-text);
   line-height: 1.6;
 }
@@ -104,12 +102,12 @@
   display: inline-block;
   font-size: 11px;
   font-weight: 600;
-  color: var(--wl-primary);
-  background: color-mix(in srgb, var(--wl-primary) 12%, transparent);
+  color: var(--wl-accent);
+  background: var(--wl-accent-soft);
   padding: 2px 8px;
   border-radius: 4px;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
 }
 
 /* ─── Loading ──────────────────────────────────────────────────────── */
@@ -125,8 +123,8 @@
 
 .wordlens-spinner {
   display: inline-block;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border: 2px solid var(--wl-border);
   border-top-color: var(--wl-spinner);
   border-radius: 50%;
@@ -134,9 +132,7 @@
 }
 
 @keyframes wordlens-spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
 /* ─── Error ────────────────────────────────────────────────────────── */
