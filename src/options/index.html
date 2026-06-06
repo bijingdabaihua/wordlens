@@ -15,66 +15,45 @@
 
     <!-- API Key Section -->
     <section id="api-key-section">
-      <h2>DeepSeek API</h2>
-      <p class="section-desc">输入你的 DeepSeek API Key 以启用 AI 翻译功能。</p>
-
       <div class="field-group">
-        <label for="api-key-input">API Key</label>
+        <label for="api-key-input" style="display:flex;align-items:center;gap:6px;">
+          API Key（DeepSeek）
+          <span id="key-status-dot" class="key-dot idle"></span>
+        </label>
         <div class="input-row">
-          <input
-            id="api-key-input"
-            type="password"
-            placeholder="sk-..."
-            spellcheck="false"
-          />
-          <button id="toggle-key-visibility" class="btn btn-icon" title="显示/隐藏">👁</button>
+          <div class="input-wrap">
+            <input
+              id="api-key-input"
+              type="password"
+              placeholder="sk-..."
+              spellcheck="false"
+            />
+            <button id="toggle-key-visibility" class="btn-icon" title="显示/隐藏">👁</button>
+          </div>
         </div>
       </div>
-
-      <div class="field-group">
-        <button id="test-connection-btn" class="btn btn-secondary">测试连接</button>
-        <button id="save-key-btn" class="btn btn-primary">保存</button>
-      </div>
-
-      <div id="api-status" class="status-msg hidden"></div>
-    </section>
-
-    <hr />
-
-    <!-- About Section -->
-    <section id="about-section">
-      <h2>关于</h2>
-      <p class="section-desc">WordLens v1.0.0 — Chrome 浏览器插件，阅读英文网页时学英语。</p>
-      <ul>
-        <li><strong>Alt + 悬停</strong> — 翻译单词</li>
-        <li><strong>选中文本</strong> — 翻译句子</li>
-      </ul>
     </section>
 
     <hr />
 
     <!-- Data Section -->
     <section id="data-section">
-      <h2>数据管理</h2>
-
       <div class="field-group">
-        <button id="export-btn" class="btn btn-secondary">导出数据</button>
-        <button id="import-btn" class="btn btn-secondary">导入数据</button>
-        <input id="import-file-input" type="file" accept=".json" class="hidden" />
+        <label style="flex:0 0 auto;margin:0;font-size:13px;display:flex;align-items:center;gap:6px;">
+          GitHub
+          <span id="repo-status-dot" class="key-dot idle"></span>
+        </label>
+        <input id="repo-url-input" type="text" placeholder="owner/repo" spellcheck="false"
+               style="flex:1;min-width:120px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--text);outline:none;font-family:inherit;" />
+        <input id="repo-token-input" type="password" placeholder="token" spellcheck="false"
+               style="flex:0 0 100px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--surface);color:var(--text);outline:none;font-family:inherit;" />
       </div>
-
-      <div class="field-group">
-        <button id="clear-btn" class="btn btn-danger">清空所有数据</button>
-      </div>
-
-      <div id="data-status" class="status-msg hidden"></div>
     </section>
 
     <hr />
 
     <!-- Stats Section -->
     <section id="stats-section">
-      <h2>词汇统计</h2>
       <div id="stats-display">
         <div class="stat-item">
           <span class="stat-label">总单词数</span>
@@ -97,7 +76,6 @@
           <span id="stat-cefr" class="stat-value">-</span>
         </div>
       </div>
-      <button id="refresh-stats-btn" class="btn btn-secondary">刷新统计</button>
     </section>
   </div>
 
