@@ -1,46 +1,52 @@
 # WordLens 开发状态
 
-## 当前阶段：Phase 6 — 打磨优化 ✅
+## 当前阶段：正式使用 ✅
 
-### 已完成
-- [x] 词库扩展（A-P，5000+ 高频词）
-- [x] README 撰写
+### 已实现功能
+- [x] 50 个单元测试
 - [x] 构建验证（tsc + vite build ✅）
-- [x] 全部测试通过（36 个 ✅）
-
-### 待办
-无 — 核心功能全部完成。
 
 ---
 
-## 项目完成总结
+## 项目功能
 
-### Phase 1: 项目脚手架 ✅
-Vite + TypeScript 严格模式 + Manifest V3 多入口构建
+### 选中翻译
+- 选中任意英文文本 → 浮窗翻译
+- 选中单个词 → 带上下文的精确翻译
+- 选中句子 → 流式输出（逐字显示）
+- 本地 5000+ 词库优先命中，毫秒级反馈
+- 未命中 → DeepSeek API → 自动存入词库
 
-### Phase 2: 共享层 ✅
-- `shared/types.ts` — 类型定义
-- `shared/storage.ts` — chrome.storage 封装（CRUD / 统计 / API Key）
-- `shared/api.ts` — DeepSeek API 客户端（单词/句子翻译 + streaming）
-- `shared/dictionary.ts` — 5000+ 高频英语词库，Map O(1) 查词
-- 36 个单元测试
+### 浮窗（Phase 3→6）
+- 显示在选中文字下方居中，间隙 8px
+- 音标 / 词性 / 中文释义
+- 流式翻译全程同一卡片，无闪跳
+- 滚轮 / Escape / 点击外部关闭
+- 自适应明暗模式
 
-### Phase 3: 翻译功能 ✅
-- Alt + 悬停提取单词 → 优先查本地词库 → 未命中调 AI
-- 选中文本 → 自动识别单/多词 → 句子使用 streaming 输出
-- 五种状态：加载 / 翻译 / 流式追加 / 错误 / 无 Key 提示
-
-### Phase 4: 复习队列 ✅
-- Space = 记住 / W = 没记住 / Q = 撤销
+### 复习队列（Phase 4→6）
+- 滚轮操作：↓ 看释义 → ↓ 记住 / ↑ 忘记
 - 按遗忘率 + 查词频率排序
-- 完成后显示词汇量估算 + CEFR 等级
+- 完成后统计：词汇量 + CEFR 等级（A1-C2）
 
-### Phase 5: 设置页面 ✅
-- API Key 保存 + 测试连接
-- 数据导出（JSON）/ 导入 / 清空
+### 设置页面（Phase 5→6）
+- API Key：自动检测，绿色状态灯指示
+- GitHub 备份：自动同步，版本号管理
+- 本地 vs 仓库自动比较，智能推/拉
 - 词汇统计面板
 
-### Phase 6: 打磨优化 ✅
-- 词库 5000+ 词
-- README
-- 构建验证
+### GitHub 同步
+- `owner/repo` + token 配置
+- 自动推送 `wordlens-backup.json` + 更新 README
+- 版本号增量，设备间自动同步
+- 公开仓库无需 token 可读
+
+---
+
+## 构建 & 测试
+
+```bash
+npm run build    # 类型检查 + 构建
+npm run dev      # 监听模式
+npm run test     # 跑测试
+```
